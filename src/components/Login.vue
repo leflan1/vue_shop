@@ -6,9 +6,25 @@
         <img src="../assets/logo.png" alt="" srcset="" />
       </div>
       <!-- 表单 -->
-      <el-form label-width="80px">
-        <el-form-item label="活动名称">
-          <el-input></el-input>
+      <el-form :model="loginForm" label-width="0px" class="login_form">
+        <!-- 账号 -->
+        <el-form-item>
+          <el-input
+            v-model="loginForm.username"
+            prefix-icon="el-icon-user-solid"
+          ></el-input>
+        </el-form-item>
+        <!-- 密码 -->
+        <el-form-item>
+          <el-input
+            v-model="loginForm.password"
+            prefix-icon="el-icon-unlock"
+          ></el-input>
+        </el-form-item>
+        <!-- 按钮 -->
+        <el-form-item class="btns">
+          <el-button type="primary">登录</el-button>
+          <el-button type="info">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -16,7 +32,17 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      // 登录表单数据绑定
+      loginForm: {
+        username: "",
+        password: "",
+      },
+    };
+  },
+};
 </script>
 
 <style lang="less" scoped>
@@ -51,5 +77,19 @@ export default {};
     border-radius: 50%;
     background-color: #eee;
   }
+}
+.btns {
+  // 弹性盒模型
+  display: flex;
+  // 尾部对齐
+  justify-content: flex-end;
+}
+.login_form {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 0 20px;
+  //   修改默认
+  box-sizing: border-box;
 }
 </style>
