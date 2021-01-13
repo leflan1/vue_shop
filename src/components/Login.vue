@@ -7,7 +7,7 @@ export default {};
 </script>
 
 <style lang="less" scoped>
-.log_contaainer {
+.login_container {
   background-color: #2b4b6b;
 }
 </style>
