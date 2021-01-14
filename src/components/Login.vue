@@ -30,7 +30,7 @@
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item class="btns">
-          <el-button type="primary">登录</el-button>
+          <el-button type="primary" @click="login">登录</el-button>
           <el-button type="info" @click="resetLoginForm">重置</el-button>
         </el-form-item>
       </el-form>
@@ -44,8 +44,8 @@ export default {
     return {
       // 登录表单数据绑定
       loginForm: {
-        username: "3123",
-        password: "3123",
+        username: "admin",
+        password: "123456",
       },
       //   验证表单对象规则
       loginFormRules: {
@@ -86,11 +86,17 @@ export default {
       this.$refs.loginFormRef.resetFields();
     },
     login() {
-      this.$refs.loginFormRef.validate((valid) => {
-        if (!valid) {
-          return;
-        }
-        this.$http.post("login", this.loginForm);
+      // 登录验证
+      this.$refs.loginFormRef.validate(async (valid) => {
+        if (!valid) return;
+        const { data: res } = await this.$http.post("login", this.loginForm);
+        // console.log(res);
+        if (res.meta.status != 200) return this.$message.error("登录失败");
+        this.$message.success("登录成功");
+        // 将token报错到本地
+        window.sessionStorage.setItem("token", res.data.token);
+        // 跳转到home
+        this.$router.push("/home");
       });
     },
   },
