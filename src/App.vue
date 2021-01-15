@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import stylesheet from "./";
 export default {
   name: "app",
 };

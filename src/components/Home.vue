@@ -16,7 +16,7 @@
         <el-menu
           background-color="#323744"
           text-color="#fff"
-          active-text-color="#ffd04b"
+          active-text-color="#4895e8"
         >
           <!-- 一级菜单 -->
           <el-submenu
@@ -35,7 +35,7 @@
               :key="subItem.id"
             >
               <template slot="title">
-                <i class="el-icon-location"></i>
+                <i class="el-icon-menu"></i>
                 <span>{{ subItem.authName }}</span>
               </template>
             </el-menu-item>
@@ -56,6 +56,12 @@ export default {
   data() {
     return {
       menulist: [],
+      iconsObj: {
+        125: "",
+        103: "",
+        101: "",
+        145: "",
+      },
     };
   },
   created() {
