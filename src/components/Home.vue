@@ -97,9 +97,6 @@ export default {
       this.isCollapse = !this.isCollapse;
     },
   },
-  // components: {
-  //   sidebar,
-  // },
 };
 </script>
 

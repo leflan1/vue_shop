@@ -1,7 +1,7 @@
 <template>
   <!-- |右边主体| -->
   <div>
-    <h3>Welcome</h3>
+    <h3>主页</h3>
   </div>
 </template>
 
