@@ -12,7 +12,36 @@
     <el-container>
       <!-- 侧边栏 -->
       <el-aside width="200px">
-        <sidebar><!-- 侧边栏组件 --></sidebar>
+        <!-- <sidebar>侧边栏组件</sidebar> -->
+        <el-menu
+          background-color="#323744"
+          text-color="#fff"
+          active-text-color="#ffd04b"
+        >
+          <!-- 一级菜单 -->
+          <el-submenu
+            :index="item.id + ''"
+            v-for="item in menulist"
+            :key="item.id"
+          >
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>{{ item.authName }}</span>
+            </template>
+            <!-- 二级菜单 -->
+            <el-menu-item
+              :index="subItem.id + ''"
+              v-for="subItem in item.children"
+              :key="subItem.id"
+            >
+              <template slot="title">
+                <i class="el-icon-location"></i>
+                <span>{{ subItem.authName }}</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+        </el-menu>
+        <!-- ---------------------------- -->
       </el-aside>
       <!-- 右侧主体 -->
       <el-main>Main</el-main>
@@ -21,7 +50,7 @@
 </template>
 
 <script>
-import sidebar from "./tab_bar/sidebar.vue";
+// import sidebar from "./tab_bar/sidebar.vue";
 
 export default {
   data() {
@@ -31,9 +60,6 @@ export default {
   },
   created() {
     this.getMenuList();
-  },
-  components: {
-    sidebar,
   },
   methods: {
     logout() {
@@ -49,6 +75,9 @@ export default {
       console.log(res);
     },
   },
+  // components: {
+  //   sidebar,
+  // },
 };
 </script>
 
