@@ -11,12 +11,18 @@
     <!-- 主体 -->
     <el-container>
       <!-- 侧边栏 -->
-      <el-aside width="200px">
+      <el-aside :width="isCollapse ? '64px' : '200px'">
+        <!-- 折叠按钮 -->
+        <div class="toggle-button" @click="toggleCollapse">|||</div>
         <!-- <sidebar>侧边栏组件</sidebar> -->
         <el-menu
           background-color="#323744"
           text-color="#fff"
           active-text-color="#4895e8"
+          :unique-opened="true"
+          :collapse="isCollapse"
+          :collapse-transition="false"
+          :router="true"
         >
           <!-- 一级菜单 -->
           <el-submenu
@@ -25,12 +31,13 @@
             :key="item.id"
           >
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i :class="iconsObj[item.id]"></i>
+              <!-- <i class="iconfont icon-tijikongjian"></i> -->
               <span>{{ item.authName }}</span>
             </template>
             <!-- 二级菜单 -->
             <el-menu-item
-              :index="subItem.id + ''"
+              :index="'/' + subItem.path"
               v-for="subItem in item.children"
               :key="subItem.id"
             >
@@ -44,24 +51,29 @@
         <!-- ---------------------------- -->
       </el-aside>
       <!-- 右侧主体 -->
-      <el-main>Main</el-main>
+      <el-main>
+        <!-- welcome路由占位符 -->
+        <router-view></router-view>
+        <!-- welcome路由占位符end -->
+      </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
-// import sidebar from "./tab_bar/sidebar.vue";
-
 export default {
   data() {
     return {
       menulist: [],
+      // 为循环菜单添加对应图标
       iconsObj: {
-        125: "",
-        103: "",
-        101: "",
-        145: "",
+        125: "iconfont icon-ziyuan",
+        103: "iconfont icon-tijikongjian",
+        101: "iconfont icon-shangpingouwudai2",
+        102: "iconfont icon-danju",
+        145: "iconfont icon-danju",
       },
+      isCollapse: false,
     };
   },
   created() {
@@ -79,6 +91,10 @@ export default {
       if (res.meta.status !== 200) return this.$message.error(res.meta.msg);
       this.menulist = res.data;
       console.log(res);
+    },
+    // 侧边栏点击按钮，切换
+    toggleCollapse() {
+      this.isCollapse = !this.isCollapse;
     },
   },
   // components: {
@@ -114,8 +130,23 @@ export default {
 }
 .el-aside {
   background-color: #323744;
+  .el-menu {
+    border-right: 0;
+  }
 }
 .el-main {
   background-color: #eaedf2;
+}
+.iconfont {
+  margin-right: 10px;
+}
+.toggle-button {
+  background-color: #4a5064;
+  font-size: 10px;
+  line-height: 24px;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 0.2em;
+  cursor: pointer;
 }
 </style>
