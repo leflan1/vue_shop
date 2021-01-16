@@ -55,14 +55,12 @@
               type="primary"
               size="mini"
               icon="el-icon-edit"
-              @click="showEditDialog()"
-            ></el-button>
+              @click="showEditDialog(scope.row.id)"
+            >
+            </el-button>
             <!-- 删除 -->
-            <el-button
-              type="danger"
-              size="mini"
-              icon="el-icon-delete"
-            ></el-button>
+            <el-button type="danger" size="mini" icon="el-icon-delete">
+            </el-button>
             <!-- 分配角色 -->
             <el-tooltip
               effect="dark"
@@ -126,16 +124,11 @@
       </span>
     </el-dialog>
     <!-- 修改用户 -->
-    <el-dialog
-      title="修改用户"
-      :visible.sync="editDialogvisible"
-      width="30%"
-      :before-close="handleClose"
-    >
+    <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="50%">
       <span>这是一段信息</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">
+      <span slot="footer">
+        <el-button @click="editDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editDialogVisible = false">
           确 定
         </el-button>
       </span>
@@ -231,6 +224,9 @@ export default {
           },
         ],
       },
+      // 控制修改用户对话框的现实与隐藏
+      editDialogVisible: false,
+      editForm: {},
     };
   },
   //   生命周期函数
@@ -291,7 +287,15 @@ export default {
       });
     },
     // 编辑用户对话框
-    showEditDialog() {},
+    async showEditDialog(id) {
+      // console.log(id);
+      const { data: res } = await this.$http.get("users/" + id);
+      if ((res, meta.status != 200)) {
+        return this.message.error("查询数据信息失败！");
+      }
+      this.editForm = this.data;
+      this.editDialogVisible = true;
+    },
   },
 };
 </script>
