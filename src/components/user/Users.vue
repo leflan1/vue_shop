@@ -92,7 +92,12 @@
     </el-card>
 
     <!-- 用户对话框 -->
-    <el-dialog title="添加用户" :visible.sync="addDialogVisible" width="50%">
+    <el-dialog
+      title="添加用户"
+      :visible.sync="addDialogVisible"
+      width="50%"
+      @close="addDialogClosed"
+    >
       <!-- 对话框----内容主体 -->
       <el-form
         :model="addForm"
@@ -127,6 +132,22 @@
 <script>
 export default {
   data() {
+    // 邮箱验证
+    var checkEmail = (rule, value, cb) => {
+      const regEmail = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+      if (regEmail.test(value)) {
+        return cb();
+      }
+      cb(new Error("请输入合法邮箱"));
+    };
+    // 手机号验证
+    var checkMobile = (rule, value, cb) => {
+      const regmobile = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/;
+      if (regmobile.test(value)) {
+        return cb();
+      }
+      cb(new Error("请输入正确手机号"));
+    };
     return {
       quertInfo: {
         // 请求参数
@@ -179,6 +200,10 @@ export default {
             message: "请输入邮箱",
             trigger: "blur",
           },
+          {
+            validator: checkEmail,
+            trigger: "blur",
+          },
         ],
         mobile: [
           {
@@ -187,9 +212,7 @@ export default {
             trigger: "blur",
           },
           {
-            min: 11,
-            max: 11,
-            message: "密码的长度在11位字符之间",
+            validator: checkMobile,
             trigger: "blur",
           },
         ],
@@ -233,6 +256,10 @@ export default {
         return this.$message.error("更新用户状态失败!");
       }
       this.$message.success("更新用户状态成功！");
+    },
+    // 监听用户对话框关闭
+    addDialogClosed() {
+      this.$refs.addFormRef.resetFields();
     },
   },
 };
