@@ -55,6 +55,7 @@
               type="primary"
               size="mini"
               icon="el-icon-edit"
+              @click="showEditDialog()"
             ></el-button>
             <!-- 删除 -->
             <el-button
@@ -121,7 +122,20 @@
       <!-- 对话框----内容主体 -->
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addDialogVisible = false">
+        <el-button type="primary" @click="addUser"> 确 定 </el-button>
+      </span>
+    </el-dialog>
+    <!-- 修改用户 -->
+    <el-dialog
+      title="修改用户"
+      :visible.sync="editDialogvisible"
+      width="30%"
+      :before-close="handleClose"
+    >
+      <span>这是一段信息</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">
           确 定
         </el-button>
       </span>
@@ -261,6 +275,23 @@ export default {
     addDialogClosed() {
       this.$refs.addFormRef.resetFields();
     },
+    // 点击添加用户
+    addUser() {
+      this.$refs.addFormRef.validate(async (valid) => {
+        if (!valid) return;
+        // 可以发起添加用户的网络请求
+        const { data: res } = await this.$http.post("users", this.addForm);
+        if (res.meta.status !== 201) {
+          this.$message.error("添加用户失败");
+        }
+        this.$message.success("添加用户成功");
+        // 隐藏添加的对话框
+        this.addDialogVisible = false;
+        this.getUserList;
+      });
+    },
+    // 编辑用户对话框
+    showEditDialog() {},
   },
 };
 </script>
