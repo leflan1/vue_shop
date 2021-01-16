@@ -125,7 +125,17 @@
     </el-dialog>
     <!-- 修改用户 -->
     <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="50%">
-      <span>这是一段信息</span>
+      <!-- 信息 -->
+      <el-form
+        :model="editForm"
+        :rules="editFormRules"
+        ref="editFormRef"
+        label-width="70px"
+      >
+        <el-form-item label="用户名">
+          <el-input v-model="editForm.username"></el-input>
+        </el-form-item>
+      </el-form>
       <span slot="footer">
         <el-button @click="editDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="editDialogVisible = false">
@@ -227,6 +237,7 @@ export default {
       // 控制修改用户对话框的现实与隐藏
       editDialogVisible: false,
       editForm: {},
+      ditFormRules: {},
     };
   },
   //   生命周期函数
